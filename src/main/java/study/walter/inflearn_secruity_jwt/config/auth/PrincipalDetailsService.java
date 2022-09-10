@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import study.walter.inflearn_secruity_jwt.Model.User;
+import study.walter.inflearn_secruity_jwt.config.PasswordEncoderConfig;
 import study.walter.inflearn_secruity_jwt.repository.UserRepository;
 
 /**
@@ -19,13 +20,15 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    // 함수 종료 시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User userEntity = userRepository.findByUsername(username);
 
         if(userEntity != null){
-            return new PrincipalDetails(userEntity);
+//            return new PrincipalDetails(userEntity);
+            return new PrincipalDetailsIntegration(userEntity);
         }
         return null;
     }
