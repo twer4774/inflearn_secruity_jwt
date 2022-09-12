@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import study.walter.inflearn_secruity_jwt.Model.User;
 import study.walter.inflearn_secruity_jwt.config.PasswordEncoderConfig;
 import study.walter.inflearn_secruity_jwt.config.auth.PrincipalDetailsIntegration;
+import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.FacebookUserInfo;
+import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.GoogleUserInfo;
+import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.OAuth2UserInfo;
 import study.walter.inflearn_secruity_jwt.repository.UserRepository;
 
 import java.util.Map;
@@ -38,11 +41,21 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         System.out.println("getAttributes " + oAuth2User.getAttributes());
 
         // 강제 회원가입 진행
-        String provider = userRequest.getClientRegistration().getClientId(); // google
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            System.out.println("google login");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")){
+            System.out.println("facebook login");
+            oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else {
+            System.out.println("Please login google or facebook account.");
+        }
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
         String username = provider +"_" + providerId; // 중복피하기
         String password = passwordEncoder.encode("aaa");
-        String email = oAuth2User.getAttribute("email");
+        String email = oAuth2UserInfo.getEmail();
         String role = "ROLE_USER";
 
         User userEntity = userRepository.findByUsername(username);
