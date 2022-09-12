@@ -13,6 +13,7 @@ import study.walter.inflearn_secruity_jwt.config.PasswordEncoderConfig;
 import study.walter.inflearn_secruity_jwt.config.auth.PrincipalDetailsIntegration;
 import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.FacebookUserInfo;
 import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.GoogleUserInfo;
+import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.NaverUserInfo;
 import study.walter.inflearn_secruity_jwt.config.auth.ouath.provider.OAuth2UserInfo;
 import study.walter.inflearn_secruity_jwt.repository.UserRepository;
 
@@ -48,8 +49,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")){
             System.out.println("facebook login");
             oAuth2UserInfo = new FacebookUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+            System.out.println("naver login");
+            oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes().get("response"));
         } else {
-            System.out.println("Please login google or facebook account.");
+            System.out.println("Please login google or facebook or naver account.");
         }
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
