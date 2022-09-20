@@ -1,0 +1,20 @@
+plugins {
+	id 'java'
+}
+
+group 'study.walter'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client:2.7.3'
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,1 +1,4 @@
 rootProject.name = 'inflearn_secruity_jwt'
+include 'oauth2-exam'
+include 'jwt-exam'
+
