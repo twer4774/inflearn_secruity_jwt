@@ -12,7 +12,6 @@ import java.util.List;
 
 @Entity
 @Data
-
 public class User {
 
     @Id
@@ -26,7 +25,6 @@ public class User {
         if(this.roles.length() > 0){
             return Arrays.asList(this.roles.split(","));
         }
-
         return new ArrayList<>();
     }
 }
